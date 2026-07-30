@@ -1,0 +1,27 @@
+name: Auto Streak Maintainer
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Runs every day at midnight UTC
+  workflow_dispatch: # Allows manual trigger to test anytime
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Modify file
+        run: |
+          echo "Automated update on $(date)" >> activity.txt
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "SankalpHendre"
+          git config --global user.email "sankalphendre5281@gmail.com"
+          git add activity.txt
+          git commit -m "chore: automated daily streak update"
+          git push
